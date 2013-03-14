@@ -1500,14 +1500,19 @@ function turnitin_create_assignment($plagiarismsettings, $plagiarismvalues, $eve
             $dtstart = strtotime('+10 minutes');
             $tii['dtstart'] = rawurlencode(date($turnitindateformat, $dtstart));
         }
-        if (!empty($module->duedate) && ($module->duedate > strtotime('+10 minutes'))) {
+        if (!empty($module->cutoffdate) && ($module->cutoffdate> strtotime('+10 minutes'))) {
+            $dtdue = $module->cutoffdate;
+            $tii['dtdue'] = rawurlencode(date($turnitindateformat, $dtdue));
+            $tii['late_accept_flag']  = '0';
+        } else if (!empty($module->duedate) && ($module->duedate > strtotime('+10 minutes'))) {
             $dtdue = $module->duedate;
             $tii['dtdue'] = rawurlencode(date($turnitindateformat, $dtdue));
+            $tii['late_accept_flag']  = '1';
         } else {
             $dtdue = strtotime('+1 year');
             $tii['dtdue'] = rawurlencode(date($turnitindateformat, $dtdue));
+            $tii['late_accept_flag']  = '1';
         }
-        $tii['late_accept_flag']  = (empty($module->preventlate) ? '1' : '0');
         if (isset($module->intro) && isset($module->introformat)) {
             $intro = '';
             switch ($module->introformat) {
@@ -1688,14 +1693,19 @@ function turnitin_update_assignment($plagiarismsettings, $plagiarismvalues, $eve
             $dtstart = strtotime('+10 minutes');
             $tii['dtstart'] = rawurlencode(date($turnitindateformat, $dtstart));
         }
-        if (!empty($module->duedate) && ($module->duedate > strtotime('+10 minutes'))) {
+        if (!empty($module->cutoffdate) && ($module->cutoffdate> strtotime('+10 minutes'))) {
+            $dtdue = $module->cutoffdate;
+            $tii['dtdue'] = rawurlencode(date($turnitindateformat, $dtdue));
+            $tii['late_accept_flag']  = '0';
+        } else if (!empty($module->duedate) && ($module->duedate > strtotime('+10 minutes'))) {
             $dtdue = $module->duedate;
             $tii['dtdue'] = rawurlencode(date($turnitindateformat, $dtdue));
+            $tii['late_accept_flag']  = '1';
         } else {
             $dtdue = strtotime('+1 year');
             $tii['dtdue'] = rawurlencode(date($turnitindateformat, $dtdue));
+            $tii['late_accept_flag']  = '1';
         }
-        $tii['late_accept_flag']  = (empty($module->preventlate) ? '1' : '0');
         if (isset($module->intro) && isset($module->introformat)) {
             $intro = '';
             switch ($module->introformat) {
